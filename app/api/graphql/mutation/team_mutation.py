@@ -1,5 +1,6 @@
 import graphene
-import datetime
+
+from django.utils import timezone
 
 from graphene import relay
 from graphql_jwt.decorators import login_required, user_passes_test
@@ -39,7 +40,7 @@ class CreateTeamMutation(relay.ClientIDMutation):
         team_board.save()
         profile = info.context.user.profile
         profile.team_board = team_board
-        profile.join_at = datetime.datetime.now()
+        profile.join_at = timezone.localtime(timezone.now()).date()
         profile.is_coach = True
         profile.save()
 

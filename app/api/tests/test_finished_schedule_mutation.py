@@ -1,6 +1,8 @@
 import json
 import datetime
 
+from django.utils import timezone
+
 from graphene_django.utils.testing import GraphQLTestCase
 
 from api.models import Profile, Schedule, FinishedSchedule
@@ -72,43 +74,43 @@ class FinishedScheduleMutationTestCase(GraphQLTestCase):
         )
         self.yesterday_first_schedule = ScheduleFactory(
             training=self.first_training,
-            date=datetime.date.today() - datetime.timedelta(days=1),
+            date=timezone.localtime(timezone.now()).date() - datetime.timedelta(days=1),
             team_board=self.first_team.team_board,
             finished_count=1
         )
         self.yesterday_second_schedule = ScheduleFactory(
             training=self.second_training,
-            date=datetime.date.today() - datetime.timedelta(days=1),
+            date=timezone.localtime(timezone.now()).date() - datetime.timedelta(days=1),
             team_board=self.first_team.team_board,
-            finished_count = 0
+            finished_count=0
         )
         self.finished_schedule = ScheduleFactory(
             training=self.finished_training,
-            date=datetime.date.today(),
+            date=timezone.localtime(timezone.now()).date(),
             team_board=self.first_team.team_board,
             finished_count=1,
         )
         self.today_first_schedule = ScheduleFactory(
             training=self.first_training,
-            date=datetime.date.today(),
+            date=timezone.localtime(timezone.now()).date(),
             team_board=self.first_team.team_board,
             finished_count=0
         )
         self.today_second_schedule = ScheduleFactory(
             training=self.second_training,
-            date=datetime.date.today(),
+            date=timezone.localtime(timezone.now()).date(),
             team_board=self.first_team.team_board,
             finished_count=0
         )
         self.today_third_schedule = ScheduleFactory(
             training=self.third_training,
-            date=datetime.date.today(),
+            date=timezone.localtime(timezone.now()).date(),
             team_board=self.first_team.team_board,
             finished_count=1,
         )
         self.today_fourth_schedule = ScheduleFactory(
             training=self.fourth_training,
-            date=datetime.date.today(),
+            date=timezone.localtime(timezone.now()).date(),
             team_board=self.first_team.team_board,
             finished_count=0
         )
@@ -127,7 +129,7 @@ class FinishedScheduleMutationTestCase(GraphQLTestCase):
         one_day_schedule_response = self.query(
             GET_MY_TEAM_ONE_SCHEDULE_QUERY,
             op_name="myTeamSchedules",
-            variables={'date': str(datetime.date.today()), 'training_Title': 'first training'},
+            variables={'date': str(timezone.localtime(timezone.now()).date()), 'training_Title': 'first training'},
             headers=create_token_headers(self.first_coach)
         )
         one_day_schedule_content = json.loads(one_day_schedule_response.content)
@@ -159,7 +161,7 @@ class FinishedScheduleMutationTestCase(GraphQLTestCase):
         one_day_schedule_response = self.query(
             GET_MY_TEAM_ONE_SCHEDULE_QUERY,
             op_name="myTeamSchedules",
-            variables={'date': str(datetime.date.today()), 'training_Title': 'first training'},
+            variables={'date': str(timezone.localtime(timezone.now()).date()), 'training_Title': 'first training'},
             headers=create_token_headers(self.first_coach)
         )
         one_day_schedule_content = json.loads(one_day_schedule_response.content)
@@ -185,7 +187,7 @@ class FinishedScheduleMutationTestCase(GraphQLTestCase):
         one_day_schedule_response = self.query(
             GET_MY_TEAM_ONE_SCHEDULE_QUERY,
             op_name="myTeamSchedules",
-            variables={'date': str(datetime.date.today()), 'training_Title': 'second training'},
+            variables={'date': str(timezone.localtime(timezone.now()).date()), 'training_Title': 'second training'},
             headers=create_token_headers(self.first_coach)
         )
         one_day_schedule_content = json.loads(one_day_schedule_response.content)
@@ -211,7 +213,7 @@ class FinishedScheduleMutationTestCase(GraphQLTestCase):
         one_day_schedule_response = self.query(
             GET_MY_TEAM_ONE_SCHEDULE_QUERY,
             op_name="myTeamSchedules",
-            variables={'date': str(datetime.date.today()), 'training_Title': 'third training'},
+            variables={'date': str(timezone.localtime(timezone.now()).date()), 'training_Title': 'third training'},
             headers=create_token_headers(self.first_coach)
         )
         one_day_schedule_content = json.loads(one_day_schedule_response.content)
@@ -237,7 +239,7 @@ class FinishedScheduleMutationTestCase(GraphQLTestCase):
         one_day_schedule_response = self.query(
             GET_MY_TEAM_ONE_SCHEDULE_QUERY,
             op_name="myTeamSchedules",
-            variables={'date': str(datetime.date.today()), 'training_Title': 'fourth training'},
+            variables={'date': str(timezone.localtime(timezone.now()).date()), 'training_Title': 'fourth training'},
             headers=create_token_headers(self.first_coach)
         )
         one_day_schedule_content = json.loads(one_day_schedule_response.content)
@@ -263,7 +265,7 @@ class FinishedScheduleMutationTestCase(GraphQLTestCase):
         one_day_schedule_response = self.query(
             GET_MY_TEAM_ONE_SCHEDULE_QUERY,
             op_name="myTeamSchedules",
-            variables={'date': str(datetime.date.today()), 'training_Title': 'finished training'},
+            variables={'date': str(timezone.localtime(timezone.now()).date()), 'training_Title': 'finished training'},
             headers=create_token_headers(self.first_coach)
         )
         one_day_schedule_content = json.loads(one_day_schedule_response.content)
@@ -289,7 +291,7 @@ class FinishedScheduleMutationTestCase(GraphQLTestCase):
         one_day_schedule_response = self.query(
             GET_MY_TEAM_ONE_SCHEDULE_QUERY,
             op_name="myTeamSchedules",
-            variables={'date': str(datetime.date.today() - datetime.timedelta(days=1)), 'training_Title': 'second training'},
+            variables={'date': str(timezone.localtime(timezone.now()).date() - datetime.timedelta(days=1)), 'training_Title': 'second training'},
             headers=create_token_headers(self.first_coach)
         )
         one_day_schedule_content = json.loads(one_day_schedule_response.content)
@@ -315,7 +317,7 @@ class FinishedScheduleMutationTestCase(GraphQLTestCase):
         one_day_schedule_response = self.query(
             GET_MY_TEAM_ONE_SCHEDULE_QUERY,
             op_name="myTeamSchedules",
-            variables={'date': str(datetime.date.today()), 'training_Title': 'first training'},
+            variables={'date': str(timezone.localtime(timezone.now()).date()), 'training_Title': 'first training'},
             headers=create_token_headers(self.first_coach)
         )
         one_day_schedule_content = json.loads(one_day_schedule_response.content)
@@ -341,7 +343,7 @@ class FinishedScheduleMutationTestCase(GraphQLTestCase):
         one_day_schedule_response = self.query(
             GET_MY_TEAM_ONE_SCHEDULE_QUERY,
             op_name="myTeamSchedules",
-            variables={'date': str(datetime.date.today()), 'training_Title': 'first training'},
+            variables={'date': str(timezone.localtime(timezone.now()).date()), 'training_Title': 'first training'},
             headers=create_token_headers(self.first_coach)
         )
         one_day_schedule_content = json.loads(one_day_schedule_response.content)
@@ -367,7 +369,7 @@ class FinishedScheduleMutationTestCase(GraphQLTestCase):
         one_day_schedule_response = self.query(
             GET_MY_TEAM_ONE_SCHEDULE_QUERY,
             op_name="myTeamSchedules",
-            variables={'date': str(datetime.date.today()), 'training_Title': 'first training'},
+            variables={'date': str(timezone.localtime(timezone.now()).date()), 'training_Title': 'first training'},
             headers=create_token_headers(self.first_coach)
         )
         one_day_schedule_content = json.loads(one_day_schedule_response.content)
@@ -392,7 +394,7 @@ class FinishedScheduleMutationTestCase(GraphQLTestCase):
         one_day_schedule_response = self.query(
             GET_MY_TEAM_ONE_SCHEDULE_QUERY,
             op_name="myTeamSchedules",
-            variables={'date': str(datetime.date.today()), 'training_Title': 'finished training'},
+            variables={'date': str(timezone.localtime(timezone.now()).date()), 'training_Title': 'finished training'},
             headers=create_token_headers(self.first_coach)
         )
         one_day_schedule_content = json.loads(one_day_schedule_response.content)
@@ -417,7 +419,7 @@ class FinishedScheduleMutationTestCase(GraphQLTestCase):
         one_day_schedule_response = self.query(
             GET_MY_TEAM_ONE_SCHEDULE_QUERY,
             op_name="myTeamSchedules",
-            variables={'date': str(datetime.date.today()), 'training_Title': 'second training'},
+            variables={'date': str(timezone.localtime(timezone.now()).date()), 'training_Title': 'second training'},
             headers=create_token_headers(self.first_coach)
         )
         one_day_schedule_content = json.loads(one_day_schedule_response.content)
@@ -436,7 +438,7 @@ class FinishedScheduleMutationTestCase(GraphQLTestCase):
         one_day_schedule_response = self.query(
             GET_MY_TEAM_ONE_SCHEDULE_QUERY,
             op_name="myTeamSchedules",
-            variables={'date': str(datetime.date.today() - datetime.timedelta(days=1)), 'training_Title': 'first training'},
+            variables={'date': str(timezone.localtime(timezone.now()).date() - datetime.timedelta(days=1)), 'training_Title': 'first training'},
             headers=create_token_headers(self.first_coach)
         )
         one_day_schedule_content = json.loads(one_day_schedule_response.content)

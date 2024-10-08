@@ -1,5 +1,6 @@
 import graphene
-import datetime
+
+from django.utils import timezone
 
 from graphql import GraphQLError
 from graphene import relay
@@ -29,7 +30,7 @@ class CreateFinishedScheduleMutation(relay.ClientIDMutation):
             raise GraphQLError("Cannot finish other team schedule")
         if FinishedSchedule.objects.filter(schedule=schedule, profile=info.context.user.profile).exists():
             raise GraphQLError("Schedule is already finished")
-        if schedule.date != datetime.date.today():
+        if schedule.date != timezone.localtime(timezone.now()).date():
             raise GraphQLError("Cannot finish any schedule other than today")
         if '1' in training.finished_patern and input.get('count') == 0:
             raise GraphQLError('Count is required')
@@ -69,7 +70,7 @@ class DeleteFinishedScheduleMutation(relay.ClientIDMutation):
         schedule = Schedule.objects.get(id=from_global_id(input.get('schedule_id'))[1])
         if not FinishedSchedule.objects.filter(schedule=schedule, profile=info.context.user.profile).exists():
             raise GraphQLError("Schedule is not finished")
-        if schedule.date != datetime.date.today():
+        if schedule.date != timezone.localtime(timezone.now()).date():
             raise GraphQLError("Cannot delete finish schedule other than today")
         finished_schedule = FinishedSchedule.objects.get(
             schedule=schedule,

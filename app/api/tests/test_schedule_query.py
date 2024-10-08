@@ -1,6 +1,8 @@
 import json
 import datetime
 
+from django.utils import timezone
+
 from graphene_django.utils.testing import GraphQLTestCase
 
 from api.utils.factory import UserFactory, TeamFactory, TrainingFactory, ScheduleFactory
@@ -44,13 +46,13 @@ class ScheduleQueryTestCase(GraphQLTestCase):
             ScheduleFactory(
                 training=self.first_team_training,
                 team_board=self.first_team.team_board,
-                date=datetime.date.today() + datetime.timedelta(days=i)
+                date=timezone.localtime(timezone.now()).date() + datetime.timedelta(days=i)
             )
         for i in range(5):
             ScheduleFactory(
                 training=self.second_team_training,
                 team_board=self.second_team.team_board,
-                date=datetime.date.today() + datetime.timedelta(days=i)
+                date=timezone.localtime(timezone.now()).date() + datetime.timedelta(days=i)
             )
 
     def test_success_get_my_team_schedules(self):

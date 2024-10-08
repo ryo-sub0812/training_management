@@ -1,6 +1,8 @@
 import graphene
 import datetime
 
+from django.utils import timezone
+
 from graphql import GraphQLError
 from graphene import relay
 from graphql_jwt.decorators import login_required, user_passes_test
@@ -22,7 +24,7 @@ class CreateScheduleMutation(relay.ClientIDMutation):
         training = Training.objects.get(id=from_global_id(input.get('training_id'))[1])
         if training.team_board != info.context.user.profile.team_board:
             raise GraphQLError("Cannot select other team training")
-        if input.get('date') < datetime.date.today():
+        if input.get('date') < timezone.localtime(timezone.now()).date():
             raise GraphQLError("Cannot register past date")
         schedule = Schedule(
             training=training,
@@ -52,9 +54,9 @@ class CreateManySchedulesMutation(relay.ClientIDMutation):
 
         if training.team_board != info.context.user.profile.team_board:
             raise GraphQLError("Cannot select other team training")
-        if start > end :
+        if start > end:
             raise GraphQLError("Please select the period correctly")
-        if start < datetime.date.today():
+        if start < timezone.localtime(timezone.now()).date():
             raise GraphQLError("Cannot register past date")
         while start <= end:
             if str(start.weekday()) in day_of_week:
@@ -79,7 +81,7 @@ class DeleteScheduleMutation(relay.ClientIDMutation):
         schedule = Schedule.objects.get(
             id=from_global_id(input.get('schedule_id'))[1]
         )
-        if schedule.date < datetime.date.today():
+        if schedule.date < timezone.localtime(timezone.now()).date():
             raise GraphQLError("Cannot delete past schedule")
         if schedule.team_board != info.context.user.profile.team_board:
             raise GraphQLError("Cannot delete other team schedule")
@@ -102,7 +104,7 @@ class DeleteManySchedulesMutation(relay.ClientIDMutation):
         end = input.get('end_date')
         if start > end:
             raise GraphQLError("Please select the period correctly")
-        if start < datetime.date.today():
+        if start < timezone.localtime(timezone.now()).date():
             raise GraphQLError("Cannot delete past schedules")
         if input.get('training_id') is not None:
             training = Training.objects.get(id=from_global_id(input.get('training_id'))[1])
