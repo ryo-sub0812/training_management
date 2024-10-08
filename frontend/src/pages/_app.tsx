@@ -9,7 +9,7 @@ import { RecoilRoot } from 'recoil';
 import theme from '../theme/theme';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:8000/graphql/',
+  uri: `${process.env.NEXT_PUBLIC_BACKEND_URL}/graphql/`,
   fetch
 });
 
