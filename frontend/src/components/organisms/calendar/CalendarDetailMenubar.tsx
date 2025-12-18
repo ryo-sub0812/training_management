@@ -45,7 +45,8 @@ export const CalendarDetailMenubar: VFC = memo(() => {
       >
         <FontAwesomeIcon
           icon={faAngleLeft}
-          className="text-purple-600 dark:text-purple-400"
+          style={{ color: '#805AD5' }}
+          className="dark:text-purple-400"
           size="lg"
         />
       </Button>
@@ -81,7 +82,8 @@ export const CalendarDetailMenubar: VFC = memo(() => {
       >
         <FontAwesomeIcon
           icon={faAngleRight}
-          className="text-purple-600 dark:text-purple-400"
+          style={{ color: '#805AD5' }}
+          className="dark:text-purple-400"
           size="lg"
         />
       </Button>
