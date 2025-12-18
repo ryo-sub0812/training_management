@@ -160,65 +160,146 @@ export const TrainingCreateOrUpdateModal: VFC = memo(() => {
               >
                 説明
               </CustomForm>
-              <Box>
-                <FormLabel fontSize="20px">
-                  トレーニングを実施した際に
-                  <br />
-                  入力する項目
+              <Box
+                bg="purple.50"
+                borderRadius="xl"
+                p={4}
+                borderWidth="1px"
+                borderColor="purple.200"
+                _dark={{ bg: 'purple.900/20', borderColor: 'purple.700' }}
+              >
+                <FormLabel
+                  fontSize="sm"
+                  fontWeight="bold"
+                  color="gray.700"
+                  _dark={{ color: 'gray.300' }}
+                  mb={3}
+                >
+                  トレーニングを実施した際に入力する項目
                 </FormLabel>
-                <Flex>
-                  <Box mr={2}>
-                    <input
+                <Stack spacing={2}>
+                  <Flex alignItems="center" gap={3}>
+                    <Box
+                      as="input"
                       type="checkbox"
                       value="1"
                       checked={finishedPatern.includes('1')}
                       data-testid="finished-patern-1"
                       onChange={onChangeFinishedPatern}
+                      w="20px"
+                      h="20px"
+                      cursor="pointer"
+                      accentColor="#805AD5"
                     />
-                  </Box>
-                  <label>回数</label>
-                </Flex>
-                <Flex>
-                  <Box mr={2}>
-                    <input
+                    <Box
+                      as="label"
+                      fontSize="sm"
+                      fontWeight="medium"
+                      color="gray.700"
+                      _dark={{ color: 'gray.300' }}
+                      cursor="pointer"
+                    >
+                      回数
+                    </Box>
+                  </Flex>
+                  <Flex alignItems="center" gap={3}>
+                    <Box
+                      as="input"
                       type="checkbox"
                       value="2"
                       checked={finishedPatern.includes('2')}
                       data-testid="finished-patern-2"
                       onChange={onChangeFinishedPatern}
+                      w="20px"
+                      h="20px"
+                      cursor="pointer"
+                      accentColor="#805AD5"
                     />
-                  </Box>
-                  <label>kg</label>
-                </Flex>
-                <Flex>
-                  <Box mr={2}>
-                    <input
+                    <Box
+                      as="label"
+                      fontSize="sm"
+                      fontWeight="medium"
+                      color="gray.700"
+                      _dark={{ color: 'gray.300' }}
+                      cursor="pointer"
+                    >
+                      kg
+                    </Box>
+                  </Flex>
+                  <Flex alignItems="center" gap={3}>
+                    <Box
+                      as="input"
                       type="checkbox"
                       value="3"
                       checked={finishedPatern.includes('3')}
                       data-testid="finished-patern-3"
                       onChange={onChangeFinishedPatern}
+                      w="20px"
+                      h="20px"
+                      cursor="pointer"
+                      accentColor="#805AD5"
                     />
-                  </Box>
-                  <label>km</label>
-                </Flex>
-                <Flex>
-                  <Box mr={2}>
-                    <input
+                    <Box
+                      as="label"
+                      fontSize="sm"
+                      fontWeight="medium"
+                      color="gray.700"
+                      _dark={{ color: 'gray.300' }}
+                      cursor="pointer"
+                    >
+                      km
+                    </Box>
+                  </Flex>
+                  <Flex alignItems="center" gap={3}>
+                    <Box
+                      as="input"
                       type="checkbox"
                       value="4"
                       checked={finishedPatern.includes('4')}
                       data-testid="finished-patern-4"
                       onChange={onChangeFinishedPatern}
+                      w="20px"
+                      h="20px"
+                      cursor="pointer"
+                      accentColor="#805AD5"
                     />
-                  </Box>
-                  <label>分</label>
-                </Flex>
+                    <Box
+                      as="label"
+                      fontSize="sm"
+                      fontWeight="medium"
+                      color="gray.700"
+                      _dark={{ color: 'gray.300' }}
+                      cursor="pointer"
+                    >
+                      分
+                    </Box>
+                  </Flex>
+                </Stack>
               </Box>
               <Box textAlign="center">
                 <Button
                   data-testid="change-icon-select-mode"
                   onClick={onChangeIsIconSelect}
+                  bg="purple.100"
+                  color="purple.700"
+                  fontWeight="semibold"
+                  borderWidth="1px"
+                  borderColor="purple.300"
+                  _dark={{
+                    bg: 'purple.900/30',
+                    color: 'purple.300',
+                    borderColor: 'purple.700',
+                  }}
+                  _hover={{
+                    bg: 'purple.200',
+                    _dark: { bg: 'purple.900/50' },
+                    transform: 'translateY(-1px)',
+                    boxShadow: 'sm',
+                  }}
+                  transition="all 0.2s"
+                  px={6}
+                  py={2}
+                  borderRadius="xl"
                 >
                   アイコンを選択する
                 </Button>

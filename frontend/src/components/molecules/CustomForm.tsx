@@ -24,16 +24,40 @@ export const CustomForm: VFC<Props> = memo((props) => {
     props
   return (
     <FormControl>
-      <FormLabel fontSize="20px">{children}</FormLabel>
+      <FormLabel
+        fontSize="sm"
+        fontWeight="bold"
+        color="gray.700"
+        _dark={{ color: 'gray.300' }}
+        mb={2}
+      >
+        {children}
+      </FormLabel>
       <Input
         name={name}
         type={type}
         onChange={handleChange}
         onBlur={handleBlur}
         value={value}
-        borderColor="gray.400"
-        borderRadius="1000px"
+        bg="white"
+        borderWidth="2px"
+        borderColor="gray.300"
+        _dark={{ bg: 'gray.800', borderColor: 'gray.600' }}
+        borderRadius="xl"
+        px={4}
+        py={3}
+        fontSize="md"
         placeholder={placeholder}
+        _focus={{
+          borderColor: 'purple.400',
+          _dark: { borderColor: 'purple.500' },
+          boxShadow: '0 0 0 3px rgba(139, 92, 246, 0.1)',
+        }}
+        _hover={{
+          borderColor: 'purple.300',
+          _dark: { borderColor: 'purple.600' },
+        }}
+        transition="all 0.2s"
         data-testid={name + '-form'}
       />
     </FormControl>

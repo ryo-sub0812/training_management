@@ -8,6 +8,7 @@ import {
   MenuButton,
   MenuList,
   Image,
+  Button,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
@@ -104,193 +105,248 @@ export const HeaderForAuthUser: VFC<Props> = memo((props) => {
           </Heading>
         </Flex>
       </Box>
-      <Menu>
-        <MenuButton
-          as={Box}
+      <Flex alignItems="center" gap={3}>
+        <Box
+          display={{ base: 'none', md: 'flex' }}
+          alignItems="center"
+          gap={3}
           bg="white"
           borderRadius="xl"
           px={4}
           py={2}
-          borderWidth="1px"
-          borderColor="gray.200"
-          _dark={{ bg: 'gray.800', borderColor: 'gray.700' }}
-          boxShadow="sm"
-          _hover={{
-            boxShadow: 'md',
-            transform: 'translateY(-1px)',
-          }}
-          transition="all 0.2s"
+          borderWidth="2px"
+          borderColor="purple.300"
+          _dark={{ bg: 'gray.800', borderColor: 'purple.600' }}
+          boxShadow="md"
         >
-          <Box display={{ base: 'none', md: 'block' }}>
-            <Flex alignItems="center" gap={3}>
-              <Box
-                w="40px"
-                h="40px"
-                borderRadius="full"
-                bg="purple.100"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                borderWidth="2px"
-                borderColor="purple.300"
-                _dark={{ bg: 'purple.900/30', borderColor: 'purple.700' }}
-              >
-                <FontAwesomeIcon
-                  icon={faCircleUser}
-                  className="text-purple-600 dark:text-purple-400"
-                  size="lg"
-                />
-              </Box>
-              <Text
-                fontWeight="semibold"
-                fontSize="md"
-                color="gray.800"
-                _dark={{ color: 'white' }}
-                data-testid="my-nickname"
-              >
-                {nickname}
-              </Text>
-            </Flex>
-          </Box>
-          <Box display={{ base: 'block', md: 'none' }}>
+          <Box
+            w="36px"
+            h="36px"
+            borderRadius="full"
+            bg="purple.100"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            borderWidth="2px"
+            borderColor="purple.300"
+            _dark={{ bg: 'purple.900/30', borderColor: 'purple.700' }}
+          >
             <FontAwesomeIcon
-              icon={faBars}
-              className="text-gray-700 dark:text-gray-300"
+              icon={faCircleUser}
+              className="text-purple-600 dark:text-purple-400"
               size="lg"
             />
           </Box>
-        </MenuButton>
-        <MenuList color="black">
-          <Box
-            display={{ base: 'block', md: 'none' }}
-            borderBottom="1px solid #718096"
-            mx={2}
-            lineHeight="40px"
+          <Text
+            fontWeight="bold"
+            fontSize="md"
+            color="gray.800"
+            _dark={{ color: 'white' }}
+            data-testid="my-nickname"
           >
-            <Flex alignItems="center">
-              <FontAwesomeIcon
-                icon={faCircleUser}
-                style={{ fontSize: '40px' }}
-              />
-              <Text pl={1} color="black">
-                {nickname}
-              </Text>
-            </Flex>
-          </Box>
-          <Box mx={6}>
-            <MenuListItem
-              text="メニュー"
-              onClick={() =>
-                menuFocus === 'myMenuList'
-                  ? onCloseMenuFocus()
-                  : onFocusMyMenuList()
-              }
+            {nickname}
+          </Text>
+        </Box>
+        <Menu>
+          <MenuButton
+            as={Button}
+            bg="white"
+            borderRadius="xl"
+            px={4}
+            py={2}
+            borderWidth="2px"
+            borderColor="purple.300"
+            _dark={{ bg: 'gray.800', borderColor: 'purple.600' }}
+            boxShadow="md"
+            _hover={{
+              bg: 'purple.50',
+              _dark: { bg: 'purple.900/20' },
+              boxShadow: 'lg',
+              transform: 'translateY(-1px)',
+            }}
+            transition="all 0.2s"
+          >
+            <Box
+              display={{ base: 'none', md: 'flex' }}
+              alignItems="center"
+              gap={2}
             >
-              <FontAwesomeIcon icon={faBars} />
-            </MenuListItem>
-            {menuFocus === 'myMenuList' && (
-              <Box ml={10}>
-                {!isGuest && (
-                  <MenuListItem
-                    text="プロフィール編集"
-                    onClick={onOpenMyProfileEditModal}
-                  >
-                    <FontAwesomeIcon icon={faPenToSquare} />
-                  </MenuListItem>
-                )}
-                {!myTeamBoard && (
-                  <>
-                    {!isGuest && (
-                      <MenuListItem
-                        text="チーム作成"
-                        onClick={() => onOpenTeamAuthModal(false)}
-                      >
-                        <FontAwesomeIcon icon={faUsers} />
-                      </MenuListItem>
-                    )}
+              <FontAwesomeIcon
+                icon={faBars}
+                className="text-purple-600 dark:text-purple-400"
+                size="lg"
+              />
+            </Box>
+            <Box display={{ base: 'block', md: 'none' }}>
+              <FontAwesomeIcon
+                icon={faBars}
+                className="text-purple-600 dark:text-purple-400"
+                size="lg"
+              />
+            </Box>
+          </MenuButton>
+          <MenuList
+            bg="white"
+            borderRadius="xl"
+            borderWidth="2px"
+            borderColor="purple.300"
+            _dark={{ bg: 'gray.800', borderColor: 'purple.600' }}
+            boxShadow="xl"
+            p={4}
+            minW="280px"
+          >
+            <Box
+              display={{ base: 'block', md: 'none' }}
+              pb={4}
+              mb={4}
+              borderBottomWidth="1px"
+              borderColor="gray.200"
+              _dark={{ borderColor: 'gray.700' }}
+            >
+              <Flex alignItems="center" gap={3}>
+                <Box
+                  w="40px"
+                  h="40px"
+                  borderRadius="full"
+                  bg="purple.100"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  borderWidth="2px"
+                  borderColor="purple.300"
+                  _dark={{ bg: 'purple.900/30', borderColor: 'purple.700' }}
+                >
+                  <FontAwesomeIcon
+                    icon={faCircleUser}
+                    className="text-purple-600 dark:text-purple-400"
+                    size="lg"
+                  />
+                </Box>
+                <Text
+                  fontWeight="bold"
+                  fontSize="md"
+                  color="gray.800"
+                  _dark={{ color: 'white' }}
+                >
+                  {nickname}
+                </Text>
+              </Flex>
+            </Box>
+            <Box>
+              <MenuListItem
+                text="メニュー"
+                onClick={() =>
+                  menuFocus === 'myMenuList'
+                    ? onCloseMenuFocus()
+                    : onFocusMyMenuList()
+                }
+              >
+                <FontAwesomeIcon icon={faBars} />
+              </MenuListItem>
+              {menuFocus === 'myMenuList' && (
+                <Box ml={10}>
+                  {!isGuest && (
                     <MenuListItem
-                      text="チーム加入"
-                      onClick={() => onOpenTeamAuthModal(true)}
-                    >
-                      <FontAwesomeIcon icon={faUsers} />
-                    </MenuListItem>
-                  </>
-                )}
-                {isCoach && isMyTeamPage && (
-                  <>
-                    <MenuListItem
-                      text="チーム編集"
-                      onClick={onOpenTeamEditModal}
+                      text="プロフィール編集"
+                      onClick={onOpenMyProfileEditModal}
                     >
                       <FontAwesomeIcon icon={faPenToSquare} />
                     </MenuListItem>
-                    <MenuListItem
-                      text="トレーニング作成"
-                      onClick={onOpenTrainingCreateModal}
-                    >
-                      <FontAwesomeIcon icon={faPlus} />
-                    </MenuListItem>
-                    <MenuListItem
-                      text="スケジュール作成"
-                      onClick={onOpenScheduleCreateModal}
-                    >
-                      <FontAwesomeIcon icon={faPlus} />
-                    </MenuListItem>
-                    <MenuListItem
-                      text="スケジュール削除"
-                      onClick={onOpenScheduleDeleteModal}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </MenuListItem>
-                  </>
-                )}
-                <MenuListItem
-                  text={isGuest ? 'アカウント削除' : 'ログアウト'}
-                  onClick={isGuest ? deleteUser : logout}
-                >
-                  <FontAwesomeIcon icon={faArrowRightFromBracket} />
-                </MenuListItem>
-              </Box>
-            )}
-            <MenuListItem
-              text="ページ移動"
-              onClick={() =>
-                menuFocus === 'pageList'
-                  ? onCloseMenuFocus()
-                  : onFocusPageList()
-              }
-            >
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
-            </MenuListItem>
-            {menuFocus === 'pageList' && (
-              <Box ml={10}>
-                {myTeamBoard && (
+                  )}
+                  {!myTeamBoard && (
+                    <>
+                      {!isGuest && (
+                        <MenuListItem
+                          text="チーム作成"
+                          onClick={() => onOpenTeamAuthModal(false)}
+                        >
+                          <FontAwesomeIcon icon={faUsers} />
+                        </MenuListItem>
+                      )}
+                      <MenuListItem
+                        text="チーム加入"
+                        onClick={() => onOpenTeamAuthModal(true)}
+                      >
+                        <FontAwesomeIcon icon={faUsers} />
+                      </MenuListItem>
+                    </>
+                  )}
+                  {isCoach && isMyTeamPage && (
+                    <>
+                      <MenuListItem
+                        text="チーム編集"
+                        onClick={onOpenTeamEditModal}
+                      >
+                        <FontAwesomeIcon icon={faPenToSquare} />
+                      </MenuListItem>
+                      <MenuListItem
+                        text="トレーニング作成"
+                        onClick={onOpenTrainingCreateModal}
+                      >
+                        <FontAwesomeIcon icon={faPlus} />
+                      </MenuListItem>
+                      <MenuListItem
+                        text="スケジュール作成"
+                        onClick={onOpenScheduleCreateModal}
+                      >
+                        <FontAwesomeIcon icon={faPlus} />
+                      </MenuListItem>
+                      <MenuListItem
+                        text="スケジュール削除"
+                        onClick={onOpenScheduleDeleteModal}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </MenuListItem>
+                    </>
+                  )}
                   <MenuListItem
-                    text="マイページ"
-                    onClick={() => router.push('/main')}
+                    text={isGuest ? 'アカウント削除' : 'ログアウト'}
+                    onClick={isGuest ? deleteUser : logout}
                   >
-                    <FontAwesomeIcon icon={faHouse} />
+                    <FontAwesomeIcon icon={faArrowRightFromBracket} />
                   </MenuListItem>
-                )}
-                {isCoach && (
+                </Box>
+              )}
+              <MenuListItem
+                text="ページ移動"
+                onClick={() =>
+                  menuFocus === 'pageList'
+                    ? onCloseMenuFocus()
+                    : onFocusPageList()
+                }
+              >
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+              </MenuListItem>
+              {menuFocus === 'pageList' && (
+                <Box ml={10}>
+                  {myTeamBoard && (
+                    <MenuListItem
+                      text="マイページ"
+                      onClick={() => router.push('/main')}
+                    >
+                      <FontAwesomeIcon icon={faHouse} />
+                    </MenuListItem>
+                  )}
+                  {isCoach && (
+                    <MenuListItem
+                      text="マイチームメンバー"
+                      onClick={() => router.push('/my-team-member')}
+                    >
+                      <FontAwesomeIcon icon={faList} />
+                    </MenuListItem>
+                  )}
                   <MenuListItem
-                    text="マイチームメンバー"
-                    onClick={() => router.push('/my-team-member')}
+                    text="チームリスト"
+                    onClick={() => router.push('/teams')}
                   >
                     <FontAwesomeIcon icon={faList} />
                   </MenuListItem>
-                )}
-                <MenuListItem
-                  text="チームリスト"
-                  onClick={() => router.push('/teams')}
-                >
-                  <FontAwesomeIcon icon={faList} />
-                </MenuListItem>
-              </Box>
-            )}
-          </Box>
-        </MenuList>
-      </Menu>
+                </Box>
+              )}
+            </Box>
+          </MenuList>
+        </Menu>
+      </Flex>
     </HeaderLayout>
   )
 })

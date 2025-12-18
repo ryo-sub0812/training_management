@@ -67,7 +67,7 @@ const Main: VFC = memo(() => {
           isGuest={dataMyProfile?.myProfile.isGuest!}
         />
         <Box
-          mt={tutorial === 0 ? '120px' : { base: '200px', md: '180px' }}
+          mt={tutorial === 0 ? '100px' : { base: '160px', md: '140px' }}
           px={{ base: 4, md: 0 }}
         >
           <Flex
