@@ -59,145 +59,171 @@ export const MyTeamCalendarDetail: VFC = memo(() => {
                   <Box
                     key={node.id}
                     className="
-                      rounded-xl p-5 bg-gradient-to-br from-card/80 to-card/60
-                      border-2 border-primary/20 shadow-lg hover:shadow-xl
-                      transition-all duration-300 hover:scale-[1.01] hover:-translate-y-1
-                      hover:border-primary/40
+                      rounded-2xl p-6 bg-white dark:bg-gray-800
+                      border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl
+                      transition-all duration-300 hover:-translate-y-1
                     "
                   >
-                    <Flex alignItems="center" gap={4} mb={3}>
+                    {/* メインコンテンツエリア */}
+                    <Flex direction="column" gap={4}>
+                      {/* トレーニング情報 */}
                       <CalendarDetailContents node={node} />
 
-                      {/* 実施ステータス */}
-                      {isPast && (
-                        <Box>
-                          {isFinished ? (
-                            <Box
-                              className="px-3 py-1.5 rounded-full bg-success/20 text-success font-semibold text-sm shadow-sm"
-                              data-testid={node.id + '-previous-finished-text'}
-                            >
-                              ✅ 実施済み
-                            </Box>
-                          ) : (
-                            <Box
-                              className="px-3 py-1.5 rounded-full bg-muted/30 text-muted-foreground font-semibold text-sm"
-                              data-testid={
-                                node.id + '-previous-not-finished-text'
-                              }
-                            >
-                              ⏸️ 未実施
+                      {/* アクションエリア */}
+                      <Flex
+                        alignItems="center"
+                        justifyContent="space-between"
+                        gap={4}
+                        flexWrap="wrap"
+                      >
+                        {/* 左側: 実施ステータス */}
+                        <Flex alignItems="center" gap={3}>
+                          {isPast && (
+                            <Box>
+                              {isFinished ? (
+                                <Box
+                                  className="px-4 py-2 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 font-semibold text-sm border border-green-200 dark:border-green-800"
+                                  data-testid={
+                                    node.id + '-previous-finished-text'
+                                  }
+                                >
+                                  ✓ 実施済み
+                                </Box>
+                              ) : (
+                                <Box
+                                  className="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 font-semibold text-sm border border-gray-200 dark:border-gray-600"
+                                  data-testid={
+                                    node.id + '-previous-not-finished-text'
+                                  }
+                                >
+                                  ○ 未実施
+                                </Box>
+                              )}
                             </Box>
                           )}
-                        </Box>
-                      )}
 
-                      {!dataMyProfile?.myProfile.isGuest && isToday && (
-                        <Box>
-                          {isFinished ? (
-                            <Link
-                              className="px-3 py-1.5 rounded-full bg-success/20 text-success font-semibold text-sm shadow-sm hover:bg-success/30 transition-colors cursor-pointer inline-block"
-                              data-testid={node.id + '-finished-text'}
-                              onClick={() => {
-                                onOpenConfirmFinishedScheduleDeleteModal(
-                                  node.id,
-                                  node.training.title,
-                                  node.date
-                                )
-                              }}
+                          {!dataMyProfile?.myProfile.isGuest && isToday && (
+                            <Box>
+                              {isFinished ? (
+                                <Link
+                                  className="px-4 py-2 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 font-semibold text-sm border border-green-200 dark:border-green-800 hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors cursor-pointer inline-block"
+                                  data-testid={node.id + '-finished-text'}
+                                  onClick={() => {
+                                    onOpenConfirmFinishedScheduleDeleteModal(
+                                      node.id,
+                                      node.training.title,
+                                      node.date
+                                    )
+                                  }}
+                                >
+                                  ✓ 実施済み
+                                </Link>
+                              ) : (
+                                <Button
+                                  data-testid={
+                                    node.id + '-schedule-finished-create-button'
+                                  }
+                                  size="md"
+                                  bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+                                  color="white"
+                                  fontWeight="semibold"
+                                  _hover={{
+                                    transform: 'translateY(-2px)',
+                                    boxShadow: 'lg',
+                                  }}
+                                  onClick={() => {
+                                    onOpenFinishedScheduleCreateModal(
+                                      node.id,
+                                      node.training.title,
+                                      node.date,
+                                      node.training.finishedPatern
+                                    )
+                                  }}
+                                >
+                                  実施する
+                                </Button>
+                              )}
+                            </Box>
+                          )}
+                        </Flex>
+
+                        {/* 右側: 削除ボタン（コーチのみ） */}
+                        {dataMyProfile?.myProfile.isCoach && (
+                          <Box
+                            className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 cursor-pointer transition-all"
+                            data-testid={node.id + '-schedule-delete-icon'}
+                            onClick={() => {
+                              onOpenConfirmScheduleDeleteModal(
+                                node.id,
+                                node.training.title,
+                                oneDay,
+                                '',
+                                '',
+                                false
+                              )
+                            }}
+                          >
+                            <FontAwesomeIcon
+                              icon={faTrash}
+                              className="text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 transition-colors"
+                              size="lg"
+                            />
+                          </Box>
+                        )}
+                      </Flex>
+
+                      {/* コーチ向け情報 */}
+                      {dataMyProfile?.myProfile.isCoach && (
+                        <Box className="mt-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                          <Flex
+                            alignItems="center"
+                            gap={4}
+                            flexWrap="wrap"
+                            justifyContent="space-between"
+                          >
+                            <Box
+                              className="px-4 py-2 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800"
+                              data-testid={node.id + '-finished-count'}
                             >
-                              ✅ 実施済み
-                            </Link>
-                          ) : (
-                            <Button
-                              data-testid={
-                                node.id + '-schedule-finished-create-button'
-                              }
-                              size="sm"
-                              className="bg-gradient-to-r from-primary to-accent text-white font-semibold shadow-md hover:shadow-lg transition-all"
-                              onClick={() => {
-                                onOpenFinishedScheduleCreateModal(
+                              <Text className="font-semibold text-blue-700 dark:text-blue-400 text-sm">
+                                {node.finishedCount}/
+                                {dataMyProfile?.myProfile.teamBoard.joinCount}
+                                人実施
+                              </Text>
+                            </Box>
+                            <Link
+                              display={{ base: 'none', md: 'inline' }}
+                              className="px-4 py-2 rounded-lg bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 font-semibold hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors border border-purple-200 dark:border-purple-800"
+                              data-testid={node.id + '-finished-member-link'}
+                              onClick={() =>
+                                onOpenFinishedScheduleMemberListModal(
                                   node.id,
                                   node.training.title,
                                   node.date,
-                                  node.training.finishedPatern
+                                  'section'
                                 )
-                              }}
+                              }
                             >
-                              🎯 実施する
-                            </Button>
-                          )}
-                        </Box>
-                      )}
-
-                      {dataMyProfile?.myProfile.isCoach && (
-                        <Box
-                          className="p-2 rounded-lg hover:bg-red-500/10 cursor-pointer transition-all"
-                          data-testid={node.id + '-schedule-delete-icon'}
-                          onClick={() => {
-                            onOpenConfirmScheduleDeleteModal(
-                              node.id,
-                              node.training.title,
-                              oneDay,
-                              '',
-                              '',
-                              false
-                            )
-                          }}
-                        >
-                          <FontAwesomeIcon
-                            icon={faTrash}
-                            className="text-red-500 hover:text-red-600 transition-colors"
-                          />
+                              実施者一覧
+                            </Link>
+                            <Link
+                              display={{ base: 'inline', md: 'none' }}
+                              className="px-4 py-2 rounded-lg bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 font-semibold hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors border border-purple-200 dark:border-purple-800"
+                              onClick={() =>
+                                onOpenFinishedScheduleMemberListModal(
+                                  node.id,
+                                  node.training.title,
+                                  node.date,
+                                  'modal'
+                                )
+                              }
+                            >
+                              実施者一覧
+                            </Link>
+                          </Flex>
                         </Box>
                       )}
                     </Flex>
-
-                    {/* コーチ向け情報 */}
-                    {dataMyProfile?.myProfile.isCoach && (
-                      <Box className="mt-4 pt-4 border-t border-border/30">
-                        <Flex alignItems="center" gap={4} flexWrap="wrap">
-                          <Box
-                            className="px-4 py-2 rounded-lg bg-gradient-to-r from-primary/20 to-accent/20 border border-primary/30"
-                            data-testid={node.id + '-finished-count'}
-                          >
-                            <Text className="font-semibold text-foreground">
-                              👥 {node.finishedCount}/
-                              {dataMyProfile?.myProfile.teamBoard.joinCount}
-                              人実施
-                            </Text>
-                          </Box>
-                          <Link
-                            display={{ base: 'none', md: 'inline' }}
-                            className="px-4 py-2 rounded-lg bg-accent/20 text-accent font-semibold hover:bg-accent/30 transition-colors"
-                            data-testid={node.id + '-finished-member-link'}
-                            onClick={() =>
-                              onOpenFinishedScheduleMemberListModal(
-                                node.id,
-                                node.training.title,
-                                node.date,
-                                'section'
-                              )
-                            }
-                          >
-                            📋 実施者一覧
-                          </Link>
-                          <Link
-                            display={{ base: 'inline', md: 'none' }}
-                            className="px-4 py-2 rounded-lg bg-accent/20 text-accent font-semibold hover:bg-accent/30 transition-colors"
-                            onClick={() =>
-                              onOpenFinishedScheduleMemberListModal(
-                                node.id,
-                                node.training.title,
-                                node.date,
-                                'modal'
-                              )
-                            }
-                          >
-                            📋 実施者一覧
-                          </Link>
-                        </Flex>
-                      </Box>
-                    )}
                   </Box>
                 )
               })}

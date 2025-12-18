@@ -45,29 +45,29 @@ export const Calendar: VFC<Props> = memo((props) => {
             {isIconMode && node.training.iconNumber ? (
               <Box
                 className="
-                  w-12 h-12 rounded-xl bg-gradient-to-br from-primary/30 to-accent/30 
+                  w-12 h-12 rounded-xl bg-white dark:bg-gray-800
                   flex items-center justify-center shadow-md hover:shadow-lg
                   transition-all duration-300 hover:scale-110 hover:rotate-3
-                  border border-primary/20
+                  border-2 border-gray-200 dark:border-gray-700 p-2
                 "
               >
                 <TrainingIcon
                   iconNumber={node.training.iconNumber}
-                  color="white"
+                  color="black"
                   size="32px"
                 />
               </Box>
             ) : (
               <Box
                 className="
-                  px-3 py-1.5 rounded-lg bg-gradient-to-r from-primary/20 to-accent/20
-                  border border-primary/30 shadow-sm hover:shadow-md
+                  px-3 py-1.5 rounded-lg bg-white dark:bg-gray-800
+                  border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md
                   transition-all duration-300 hover:scale-105
                   max-w-[150px]
                 "
               >
                 <Text
-                  className="text-foreground font-medium text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                  className="text-gray-800 dark:text-white font-medium text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                   title={node.training.title}
                 >
                   {node.training.title}
@@ -95,17 +95,42 @@ export const Calendar: VFC<Props> = memo((props) => {
       <Box pb={4} textAlign="right">
         <Link
           onClick={onChangeIsIconMode}
-          className="text-primary hover:text-accent font-medium text-sm transition-colors duration-200 px-3 py-1.5 rounded-lg hover:bg-primary/10 inline-block"
+          color="gray.600"
+          _dark={{ color: 'gray.300' }}
+          fontWeight="medium"
+          fontSize="sm"
+          px={3}
+          py={1.5}
+          borderRadius="lg"
+          _hover={{
+            bg: 'gray.100',
+            _dark: { bg: 'gray.700' },
+          }}
+          transition="all 0.2s"
         >
           {isIconMode
             ? '📝 予定を文字表記にする'
             : '🎯 予定をアイコン表記にする'}
         </Link>
       </Box>
-      <Box className="bg-gradient-to-r from-primary/10 via-accent/5 to-secondary/10 rounded-xl p-4 mb-4 border border-primary/20">
-        <Flex className="text-sm font-semibold text-muted-foreground">
-          <Text w={{ base: '110px', md: '120px' }}>📅 日付</Text>
-          <Text pl={{ base: '10px', md: '40px' }}>🎯 予定</Text>
+      <Box
+        bg="gray.50"
+        _dark={{ bg: 'gray.800' }}
+        borderRadius="xl"
+        p={4}
+        mb={4}
+        borderWidth="1px"
+        borderColor="gray.200"
+        _dark={{ borderColor: 'gray.700' }}
+      >
+        <Flex
+          fontSize="sm"
+          fontWeight="semibold"
+          color="gray.600"
+          _dark={{ color: 'gray.400' }}
+        >
+          <Text w={{ base: '110px', md: '120px' }}>日付</Text>
+          <Text pl={{ base: '10px', md: '40px' }}>予定</Text>
         </Flex>
       </Box>
       <Box>
@@ -118,15 +143,36 @@ export const Calendar: VFC<Props> = memo((props) => {
             <Box
               key={i}
               mb={2}
-              className={`
-                rounded-xl p-4 transition-all duration-300 cursor-pointer
-                ${
-                  isToday
-                    ? 'bg-gradient-to-r from-primary/20 via-accent/15 to-secondary/10 border-2 border-primary/40 shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30'
-                    : 'bg-card/50 border border-border/30 hover:bg-card/70 hover:border-primary/30 hover:shadow-md'
-                }
-                hover:scale-[1.01] hover:-translate-y-0.5
-              `}
+              bg="white"
+              _dark={{ bg: 'gray.800' }}
+              borderRadius="xl"
+              p={4}
+              borderWidth={isToday ? '2px' : '1px'}
+              borderColor={
+                isToday
+                  ? 'purple.400'
+                  : isSunday
+                  ? 'red.200'
+                  : isSaturday
+                  ? 'blue.200'
+                  : 'gray.200'
+              }
+              _dark={{
+                borderColor: isToday
+                  ? 'purple.500'
+                  : isSunday
+                  ? 'red.600'
+                  : isSaturday
+                  ? 'blue.600'
+                  : 'gray.700',
+              }}
+              boxShadow={isToday ? 'lg' : 'sm'}
+              _hover={{
+                boxShadow: 'xl',
+                transform: 'translateY(-2px)',
+              }}
+              transition="all 0.3s"
+              cursor="pointer"
               onClick={() => {
                 setOneDay(date.format('YYYY-MM-DD'))
               }}
@@ -134,23 +180,57 @@ export const Calendar: VFC<Props> = memo((props) => {
               <Flex alignItems="center" gap={4}>
                 <Box
                   minW="120px"
-                  className={`
-                    px-3 py-2 rounded-lg font-semibold text-sm
-                    ${
-                      isToday
-                        ? 'bg-primary/30 text-primary-foreground shadow-md'
-                        : isSunday
-                        ? 'bg-red-500/20 text-red-400'
-                        : isSaturday
-                        ? 'bg-blue-500/20 text-blue-400'
-                        : 'bg-secondary/20 text-foreground'
-                    }
-                  `}
+                  px={3}
+                  py={2}
+                  borderRadius="lg"
+                  fontWeight="semibold"
+                  fontSize="sm"
+                  bg={
+                    isToday
+                      ? 'purple.100'
+                      : isSunday
+                      ? 'red.50'
+                      : isSaturday
+                      ? 'blue.50'
+                      : 'gray.50'
+                  }
+                  _dark={{
+                    bg: isToday
+                      ? 'purple.900'
+                      : isSunday
+                      ? 'red.900'
+                      : isSaturday
+                      ? 'blue.900'
+                      : 'gray.700',
+                  }}
+                  color={
+                    isToday
+                      ? 'purple.700'
+                      : isSunday
+                      ? 'red.600'
+                      : isSaturday
+                      ? 'blue.600'
+                      : 'gray.700'
+                  }
+                  _dark={{
+                    color: isToday
+                      ? 'purple.300'
+                      : isSunday
+                      ? 'red.300'
+                      : isSaturday
+                      ? 'blue.300'
+                      : 'gray.300',
+                  }}
+                  boxShadow="sm"
                 >
                   {moment(calendarDate.firstDate).get('M') + 1 === date.get('M')
                     ? date.format('M月D日(ddd)')
                     : date.format('D日(ddd)')}
-                  {isToday && <span className="ml-2 text-xs">✨</span>}
+                  {isToday && (
+                    <Text as="span" ml={2} fontSize="xs">
+                      ✨
+                    </Text>
+                  )}
                 </Box>
                 <Wrap flex={1} spacing={2}>
                   {weekSchedules(date)}
