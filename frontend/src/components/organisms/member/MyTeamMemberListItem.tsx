@@ -6,6 +6,7 @@ import moment from 'moment'
 
 import { ProfileNodeType } from '../../../../types/queriesType'
 import { useControllModal } from '../../../hooks/useControllModal'
+import { Card, CardContent } from '../../ui/card'
 
 type Props = {
   member: ProfileNodeType
@@ -17,82 +18,68 @@ export const MyTeamMemberListItem: VFC<Props> = memo((props) => {
   const { onOpenOneMemberSelected } = useControllModal()
 
   return (
-    <Box key={member.node.id}>
-      <Flex
-        borderBottom="1px solid #718096"
-        py={3}
-        alignItems="center"
-        fontSize={{ base: '13px', md: '16px' }}
-      >
-        <Box w={{ base: '40px', md: '50px' }}>
-          <FontAwesomeIcon icon={faCircleUser} style={{ fontSize: '30px' }} />
-        </Box>
-        <Text
-          w={{ base: '100px', md: '130px' }}
-          display={{ base: 'none', md: 'block' }}
-          data-testid={`${member.node.id}-member-nickname`}
-          onClick={() => null}
-        >
-          {member.node.nickname}
-        </Text>
-        <Text
-          w="60px"
-          display={{ base: 'block', md: 'none' }}
-          onClick={() => null}
-        >
-          {member.node.nickname}
-        </Text>
-        <Box
-          w={{ base: '110px', md: '160px' }}
-          pl="10px"
-          fontSize={{ base: '12px', md: '16px' }}
-        >
-          <Text data-testid={`${member.node.id}-member-join-date`}>
-            {moment(member.node.joinAt).format('YYYY年M月D日(ddd)')}
-          </Text>
-          <Text data-testid={`${member.node.id}-member-join-time`}>
-            {moment(member.node.joinAt).format('H時m分')}
-          </Text>
-        </Box>
-        <Text
-          w={{ base: '50px', md: '80px' }}
-          pl="10px"
-          data-testid={`${member.node.id}-member-finished-schedule-count`}
-        >
-          {member.node.finishedScheduleCount}回
-        </Text>
-        <Box
-          pl={{ base: '10px', md: '10px' }}
-          display={{ base: 'none', md: 'block' }}
-        >
-          <FontAwesomeIcon
-            icon={faCircleInfo}
-            data-testid={`${member.node.id}-member-detail-as-md`}
+    <Card className="mb-4 transition-all duration-300 hover:scale-[1.01] hover:-translate-y-0.5">
+      <CardContent className="p-4">
+        <Flex alignItems="center" gap={4}>
+          <Box className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+            <FontAwesomeIcon 
+              icon={faCircleUser} 
+              className="text-primary text-xl"
+            />
+          </Box>
+          
+          <Box flex={1}>
+            <Text
+              fontWeight="semibold"
+              fontSize={{ base: 'md', md: 'lg' }}
+              className="text-foreground"
+              data-testid={`${member.node.id}-member-nickname`}
+            >
+              {member.node.nickname}
+              {member.node.isCoach && (
+                <Box as="span" className="ml-2 bg-warning/20 text-warning px-2 py-1 rounded-full text-xs font-semibold">
+                  👑 コーチ
+                </Box>
+              )}
+            </Text>
+            <Flex direction={{ base: 'column', md: 'row' }} gap={{ base: 1, md: 4 }} mt={1}>
+              <Text
+                fontSize="sm"
+                className="text-muted-foreground"
+                data-testid={`${member.node.id}-member-join-date`}
+              >
+                🗓️ 参加日: {moment(member.node.joinAt).format('YYYY年M月D日(ddd) H時m分')}
+              </Text>
+              <Text
+                fontSize="sm"
+                className="text-muted-foreground"
+                data-testid={`${member.node.id}-member-finished-schedule-count`}
+              >
+                🏆 実施回数: {member.node.finishedScheduleCount}回
+              </Text>
+            </Flex>
+          </Box>
+          
+          <Box 
+            className="p-2 rounded-lg hover:bg-secondary/50 cursor-pointer transition-all duration-300"
+            data-testid={`${member.node.id}-member-detail-${window.innerWidth >= 768 ? 'md' : 'base'}`}
             onClick={() =>
               onOpenOneMemberSelected(
                 member.node.id,
                 member.node.nickname,
                 member.node.isCoach,
-                false
+                window.innerWidth < 768
               )
             }
-          />
-        </Box>
-        <Box pl={5} display={{ base: 'block', md: 'none' }}>
-          <FontAwesomeIcon
-            icon={faCircleInfo}
-            data-testid={`${member.node.id}-member-detail-as-base`}
-            onClick={() =>
-              onOpenOneMemberSelected(
-                member.node.id,
-                member.node.nickname,
-                member.node.isCoach,
-                true
-              )
-            }
-          />
-        </Box>
-      </Flex>
-    </Box>
+          >
+            <FontAwesomeIcon
+              icon={faCircleInfo}
+              className="text-accent hover:text-accent/80 transition-colors"
+              size="lg"
+            />
+          </Box>
+        </Flex>
+      </CardContent>
+    </Card>
   )
 })
