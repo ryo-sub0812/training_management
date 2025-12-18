@@ -65,18 +65,39 @@ export const HeaderForAuthUser: VFC<Props> = memo((props) => {
 
   return (
     <HeaderLayout isLogin={true} title={title}>
-      <Box onClick={() => (myTeamBoard ? router.push('/main') : null)}>
-        <Flex alignItems="center">
-          <Image
+      <Box
+        onClick={() => (myTeamBoard ? router.push('/main') : null)}
+        cursor={myTeamBoard ? 'pointer' : 'default'}
+        _hover={myTeamBoard ? { opacity: 0.8 } : {}}
+        transition="all 0.2s"
+      >
+        <Flex alignItems="center" gap={3}>
+          <Box
             borderRadius="full"
-            boxSize="50px"
-            src="/images/team.jpg"
-            alt="チーム画像"
-          />
+            overflow="hidden"
+            boxSize={{ base: '40px', md: '48px' }}
+            borderWidth="2px"
+            borderColor="purple.300"
+            _dark={{ borderColor: 'purple.600' }}
+            boxShadow="md"
+          >
+            <Image
+              borderRadius="full"
+              boxSize={{ base: '40px', md: '48px' }}
+              src="/images/team.jpg"
+              alt="チーム画像"
+            />
+          </Box>
           <Heading
             as="h1"
-            ml={2}
-            fontSize={{ base: '15px', md: '30px' }}
+            fontSize={{ base: '16px', md: '24px' }}
+            fontWeight="800"
+            bgGradient="linear(to-r, purple.600, blue.600)"
+            bgClip="text"
+            _dark={{
+              bgGradient: 'linear(to-r, purple.400, blue.400)',
+              bgClip: 'text',
+            }}
             data-testid="my-team-name"
           >
             {myTeamBoard ? myTeamBoard.team.name : '未所属'}
@@ -84,20 +105,59 @@ export const HeaderForAuthUser: VFC<Props> = memo((props) => {
         </Flex>
       </Box>
       <Menu>
-        <MenuButton>
+        <MenuButton
+          as={Box}
+          bg="white"
+          borderRadius="xl"
+          px={4}
+          py={2}
+          borderWidth="1px"
+          borderColor="gray.200"
+          _dark={{ bg: 'gray.800', borderColor: 'gray.700' }}
+          boxShadow="sm"
+          _hover={{
+            boxShadow: 'md',
+            transform: 'translateY(-1px)',
+          }}
+          transition="all 0.2s"
+        >
           <Box display={{ base: 'none', md: 'block' }}>
-            <Flex alignItems="center">
-              <FontAwesomeIcon
-                icon={faCircleUser}
-                style={{ fontSize: '50px' }}
-              />
-              <Text pl={3} data-testid="my-nickname">
+            <Flex alignItems="center" gap={3}>
+              <Box
+                w="40px"
+                h="40px"
+                borderRadius="full"
+                bg="purple.100"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                borderWidth="2px"
+                borderColor="purple.300"
+                _dark={{ bg: 'purple.900/30', borderColor: 'purple.700' }}
+              >
+                <FontAwesomeIcon
+                  icon={faCircleUser}
+                  className="text-purple-600 dark:text-purple-400"
+                  size="lg"
+                />
+              </Box>
+              <Text
+                fontWeight="semibold"
+                fontSize="md"
+                color="gray.800"
+                _dark={{ color: 'white' }}
+                data-testid="my-nickname"
+              >
                 {nickname}
               </Text>
             </Flex>
           </Box>
           <Box display={{ base: 'block', md: 'none' }}>
-            <FontAwesomeIcon icon={faBars} />
+            <FontAwesomeIcon
+              icon={faBars}
+              className="text-gray-700 dark:text-gray-300"
+              size="lg"
+            />
           </Box>
         </MenuButton>
         <MenuList color="black">

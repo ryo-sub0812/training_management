@@ -13,18 +13,19 @@ export const HeaderLayout: VFC<Props> = memo((props) => {
   const { title, children, isLogin } = props
 
   return (
-    <header className="fixed w-full z-50 bg-card/80 backdrop-blur-xl border-b border-border/50 shadow-2xl">
+    <header className="fixed w-full z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-lg">
       <div className="relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-accent/10"></div>
-        <nav className="relative flex justify-between items-center h-20 px-5 md:px-10">
-          <div className="absolute left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent bottom-0"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900"></div>
+        <nav className="relative flex justify-between items-center h-16 px-4 md:px-8">
           {children}
         </nav>
       </div>
-      <div className="px-5 md:px-10 py-4 bg-gradient-to-r from-transparent via-card/50 to-transparent backdrop-blur-sm border-b border-border/30">
-        <PageTitle>{title}</PageTitle>
-        {isLogin && <TutorialText />}
-      </div>
+      {isLogin && (
+        <div className="px-4 md:px-8 py-3 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+          <PageTitle>{title}</PageTitle>
+          <TutorialText />
+        </div>
+      )}
     </header>
   )
 })

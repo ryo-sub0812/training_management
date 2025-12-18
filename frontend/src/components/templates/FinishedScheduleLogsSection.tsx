@@ -46,7 +46,7 @@ export const FinishedScheduleLogsSection: VFC = memo(() => {
   if (loadingMyFinishedSchedules || loadingMyTeamFinishedSchedules)
     return <CustomSpinner />
   return (
-    <SectionCard width="450px">
+    <SectionCard width="400px">
       <SectionTitle>スケジュール実施記録</SectionTitle>
       <Flex justify="flex-end" pb={2}>
         <Link

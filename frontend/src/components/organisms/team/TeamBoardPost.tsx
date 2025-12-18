@@ -18,7 +18,6 @@ import { SectionCloseLink } from '../../atoms/link/SectionCloseLink'
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
-import { Card, CardContent } from '../../ui/card'
 
 export const TeamBoardPost: VFC = memo(() => {
   moment.locale('ja')
@@ -77,26 +76,40 @@ export const TeamBoardPost: VFC = memo(() => {
           }}
         >
           {!dataMyProfile?.myProfile.isGuest && (
-            <Card className="mb-6">
-              <CardContent className="p-4">
-                <Flex gap={3}>
-                  <Input
-                    value={text}
-                    onChange={onChangeText}
-                    className="input-field flex-1"
-                    placeholder="新しい投稿を作成..."
-                    data-testid="post-text-form"
-                  />
-                  <Button
-                    type="submit"
-                    className="btn-primary px-6"
-                    data-testid="create-post-button"
-                  >
-                    📝 投稿
-                  </Button>
-                </Flex>
-              </CardContent>
-            </Card>
+            <Box
+              mb={6}
+              bg="white"
+              borderRadius="xl"
+              p={4}
+              borderWidth="2px"
+              borderColor="gray.200"
+              _dark={{ bg: 'gray.800', borderColor: 'gray.700' }}
+              boxShadow="md"
+            >
+              <Flex gap={3}>
+                <Input
+                  value={text}
+                  onChange={onChangeText}
+                  flex={1}
+                  placeholder="新しい投稿を作成..."
+                  data-testid="post-text-form"
+                />
+                <Button
+                  type="submit"
+                  bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+                  color="white"
+                  fontWeight="semibold"
+                  px={6}
+                  _hover={{
+                    transform: 'translateY(-2px)',
+                    boxShadow: 'lg',
+                  }}
+                  data-testid="create-post-button"
+                >
+                  📝 投稿
+                </Button>
+              </Flex>
+            </Box>
           )}
         </form>
         {loadingMoreMyTeamPosts ? (
@@ -110,15 +123,160 @@ export const TeamBoardPost: VFC = memo(() => {
               <Text textAlign="center">投稿はありません。</Text>
             )}
             {dataMoreMyTeamPosts?.myTeamPosts.edges?.map(({ node }) => (
-              <Card key={node.id} className="mb-4 transition-all duration-300 hover:scale-[1.01]">
-                <CardContent className="p-4">
-                  {dataMyProfile?.myProfile.id! === node.profile.id ? (
-                    <Flex justify="flex-end">
-                      <Box textAlign="right" flex={1} maxW="80%">
-                        <Flex alignItems="center" justify="flex-end" mb={2}>
-                          <Box 
-                            mr={3}
-                            className="p-1 rounded-full hover:bg-red-500/10 cursor-pointer transition-all duration-300"
+              <Box
+                key={node.id}
+                mb={4}
+                bg="white"
+                borderRadius="xl"
+                p={5}
+                borderWidth="2px"
+                borderColor="gray.200"
+                _dark={{ bg: 'gray.800', borderColor: 'gray.700' }}
+                boxShadow="md"
+                _hover={{
+                  boxShadow: 'xl',
+                  transform: 'translateY(-2px)',
+                }}
+                transition="all 0.3s"
+              >
+                {dataMyProfile?.myProfile.id! === node.profile.id ? (
+                  <Flex justify="flex-end">
+                    <Box textAlign="right" flex={1} maxW="80%">
+                      <Flex alignItems="center" justify="flex-end" mb={2}>
+                        <Box
+                          mr={3}
+                          p={2}
+                          borderRadius="full"
+                          _hover={{
+                            bg: 'red.50',
+                            _dark: { bg: 'red.900/20' },
+                          }}
+                          cursor="pointer"
+                          transition="all 0.2s"
+                          data-testid={node.id + '-post-delete-icon'}
+                          onClick={() =>
+                            onOpenConfirmPostDeleteModal(node.id, node.text)
+                          }
+                        >
+                          <FontAwesomeIcon
+                            icon={faX}
+                            className="text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 transition-colors"
+                            size="sm"
+                          />
+                        </Box>
+                        <Box
+                          bg="purple.100"
+                          color="purple.800"
+                          px={4}
+                          py={3}
+                          borderRadius="2xl"
+                          borderBottomRightRadius="sm"
+                          maxW="full"
+                          borderWidth="1px"
+                          borderColor="purple.300"
+                          _dark={{
+                            bg: 'purple.900/30',
+                            color: 'purple.200',
+                            borderColor: 'purple.700',
+                          }}
+                          boxShadow="sm"
+                        >
+                          <Text fontWeight="medium">{node.text}</Text>
+                        </Box>
+                      </Flex>
+                      <Flex alignItems="center" justify="flex-end" gap={2}>
+                        <Text
+                          fontSize="xs"
+                          color="gray.600"
+                          _dark={{ color: 'gray.400' }}
+                          data-testid={node.id + '-post-created-at'}
+                        >
+                          {moment(node.createdAt).format('M月D日(ddd) H時m分')}
+                        </Text>
+                        <Box
+                          w="32px"
+                          h="32px"
+                          borderRadius="full"
+                          bg="purple.100"
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                          borderWidth="2px"
+                          borderColor="purple.300"
+                          _dark={{
+                            bg: 'purple.900/30',
+                            borderColor: 'purple.700',
+                          }}
+                        >
+                          <Text
+                            fontSize="xs"
+                            fontWeight="bold"
+                            color="purple.700"
+                            _dark={{ color: 'purple.300' }}
+                          >
+                            {node.profile.nickname.charAt(0)}
+                          </Text>
+                        </Box>
+                      </Flex>
+                    </Box>
+                  </Flex>
+                ) : (
+                  <Flex>
+                    <Box
+                      w="32px"
+                      h="32px"
+                      borderRadius="full"
+                      bg="blue.100"
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      mr={3}
+                      flexShrink={0}
+                      borderWidth="2px"
+                      borderColor="blue.300"
+                      _dark={{ bg: 'blue.900/30', borderColor: 'blue.700' }}
+                    >
+                      <Text
+                        fontSize="xs"
+                        fontWeight="bold"
+                        color="blue.700"
+                        _dark={{ color: 'blue.300' }}
+                      >
+                        {node.profile.nickname.charAt(0)}
+                      </Text>
+                    </Box>
+                    <Box flex={1} maxW="80%">
+                      <Flex alignItems="center" mb={2}>
+                        <Box
+                          bg="blue.100"
+                          color="blue.800"
+                          px={4}
+                          py={3}
+                          borderRadius="2xl"
+                          borderBottomLeftRadius="sm"
+                          maxW="full"
+                          borderWidth="1px"
+                          borderColor="blue.300"
+                          _dark={{
+                            bg: 'blue.900/30',
+                            color: 'blue.200',
+                            borderColor: 'blue.700',
+                          }}
+                          boxShadow="sm"
+                        >
+                          <Text fontWeight="medium">{node.text}</Text>
+                        </Box>
+                        {dataMyProfile?.myProfile.isCoach && (
+                          <Box
+                            ml={3}
+                            p={2}
+                            borderRadius="full"
+                            _hover={{
+                              bg: 'red.50',
+                              _dark: { bg: 'red.900/20' },
+                            }}
+                            cursor="pointer"
+                            transition="all 0.2s"
                             data-testid={node.id + '-post-delete-icon'}
                             onClick={() =>
                               onOpenConfirmPostDeleteModal(node.id, node.text)
@@ -126,76 +284,34 @@ export const TeamBoardPost: VFC = memo(() => {
                           >
                             <FontAwesomeIcon
                               icon={faX}
-                              className="text-muted-foreground hover:text-red-500 transition-colors"
+                              className="text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 transition-colors"
                               size="sm"
                             />
                           </Box>
-                          <Box className="bg-primary/90 text-primary-foreground px-4 py-3 rounded-2xl rounded-br-sm max-w-full">
-                            <Text>{node.text}</Text>
-                          </Box>
-                        </Flex>
-                        <Flex alignItems="center" justify="flex-end" gap={2}>
-                          <Text
-                            fontSize="xs"
-                            className="text-muted-foreground"
-                            data-testid={node.id + '-post-created-at'}
-                          >
-                            {moment(node.createdAt).format('M月D日(ddd) H時m分')}
-                          </Text>
-                          <Box className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
-                            <Text fontSize="xs" fontWeight="bold">
-                              {node.profile.nickname.charAt(0)}
-                            </Text>
-                          </Box>
-                        </Flex>
-                      </Box>
-                    </Flex>
-                  ) : (
-                    <Flex>
-                      <Box className="w-8 h-8 rounded-full bg-gradient-to-br from-secondary/40 to-accent/40 flex items-center justify-center mr-3 flex-shrink-0">
-                        <Text fontSize="xs" fontWeight="bold">
-                          {node.profile.nickname.charAt(0)}
+                        )}
+                      </Flex>
+                      <Flex alignItems="center" gap={2}>
+                        <Text
+                          fontSize="xs"
+                          fontWeight="semibold"
+                          color="gray.800"
+                          _dark={{ color: 'white' }}
+                        >
+                          {node.profile.nickname}
                         </Text>
-                      </Box>
-                      <Box flex={1} maxW="80%">
-                        <Flex alignItems="center" mb={2}>
-                          <Box className="bg-secondary/80 text-foreground px-4 py-3 rounded-2xl rounded-bl-sm max-w-full">
-                            <Text>{node.text}</Text>
-                          </Box>
-                          {dataMyProfile?.myProfile.isCoach && (
-                            <Box 
-                              ml={3}
-                              className="p-1 rounded-full hover:bg-red-500/10 cursor-pointer transition-all duration-300"
-                              data-testid={node.id + '-post-delete-icon'}
-                              onClick={() =>
-                                onOpenConfirmPostDeleteModal(node.id, node.text)
-                              }
-                            >
-                              <FontAwesomeIcon
-                                icon={faX}
-                                className="text-muted-foreground hover:text-red-500 transition-colors"
-                                size="sm"
-                              />
-                            </Box>
-                          )}
-                        </Flex>
-                        <Flex alignItems="center" gap={2}>
-                          <Text fontSize="xs" fontWeight="medium" className="text-foreground">
-                            {node.profile.nickname}
-                          </Text>
-                          <Text
-                            fontSize="xs"
-                            className="text-muted-foreground"
-                            data-testid={node.id + '-post-created-at'}
-                          >
-                            {moment(node.createdAt).format('M月D日(ddd) H時m分')}
-                          </Text>
-                        </Flex>
-                      </Box>
-                    </Flex>
-                  )}
-                </CardContent>
-              </Card>
+                        <Text
+                          fontSize="xs"
+                          color="gray.600"
+                          _dark={{ color: 'gray.400' }}
+                          data-testid={node.id + '-post-created-at'}
+                        >
+                          {moment(node.createdAt).format('M月D日(ddd) H時m分')}
+                        </Text>
+                      </Flex>
+                    </Box>
+                  </Flex>
+                )}
+              </Box>
             ))}
             {dataMoreMyTeamPosts?.myTeamPosts.pageInfo.hasNextPage && (
               <Box textAlign="center">
