@@ -115,13 +115,12 @@ export const Calendar: VFC<Props> = memo((props) => {
       </Box>
       <Box
         bg="gray.50"
-        _dark={{ bg: 'gray.800' }}
         borderRadius="xl"
         p={4}
         mb={4}
         borderWidth="1px"
         borderColor="gray.200"
-        _dark={{ borderColor: 'gray.700' }}
+        _dark={{ bg: 'gray.800', borderColor: 'gray.700' }}
       >
         <Flex
           fontSize="sm"
@@ -144,7 +143,6 @@ export const Calendar: VFC<Props> = memo((props) => {
               key={i}
               mb={2}
               bg="white"
-              _dark={{ bg: 'gray.800' }}
               borderRadius="xl"
               p={4}
               borderWidth={isToday ? '2px' : '1px'}
@@ -157,7 +155,9 @@ export const Calendar: VFC<Props> = memo((props) => {
                   ? 'blue.200'
                   : 'gray.200'
               }
+              boxShadow={isToday ? 'lg' : 'sm'}
               _dark={{
+                bg: 'gray.800',
                 borderColor: isToday
                   ? 'purple.500'
                   : isSunday
@@ -166,7 +166,6 @@ export const Calendar: VFC<Props> = memo((props) => {
                   ? 'blue.600'
                   : 'gray.700',
               }}
-              boxShadow={isToday ? 'lg' : 'sm'}
               _hover={{
                 boxShadow: 'xl',
                 transform: 'translateY(-2px)',
@@ -194,15 +193,6 @@ export const Calendar: VFC<Props> = memo((props) => {
                       ? 'blue.50'
                       : 'gray.50'
                   }
-                  _dark={{
-                    bg: isToday
-                      ? 'purple.900'
-                      : isSunday
-                      ? 'red.900'
-                      : isSaturday
-                      ? 'blue.900'
-                      : 'gray.700',
-                  }}
                   color={
                     isToday
                       ? 'purple.700'
@@ -213,6 +203,13 @@ export const Calendar: VFC<Props> = memo((props) => {
                       : 'gray.700'
                   }
                   _dark={{
+                    bg: isToday
+                      ? 'purple.900'
+                      : isSunday
+                      ? 'red.900'
+                      : isSaturday
+                      ? 'blue.900'
+                      : 'gray.700',
                     color: isToday
                       ? 'purple.300'
                       : isSunday
