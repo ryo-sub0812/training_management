@@ -15,6 +15,7 @@ export const SectionCard: VFC<Props> = memo((props) => {
     <Card
       className={cn(
         'w-full md:w-auto mb-8 mr-8 ml-5 md:ml-0 animate-fadeIn group',
+        'md:mx-0 mx-auto',
         'hover:-translate-y-2 transition-all duration-300',
         'bg-white dark:bg-gray-800',
         'border border-gray-200 dark:border-gray-700',
@@ -25,7 +26,8 @@ export const SectionCard: VFC<Props> = memo((props) => {
         width:
           typeof window !== 'undefined' && window.innerWidth >= 768
             ? width
-            : '350px',
+            : 'calc(100% - 2rem)',
+        maxWidth: 'calc(100% - 2rem)',
         minHeight: '200px',
       }}
     >

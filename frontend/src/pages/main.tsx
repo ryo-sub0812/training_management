@@ -66,8 +66,14 @@ const Main: VFC = memo(() => {
           isMyTeamPage={true}
           isGuest={dataMyProfile?.myProfile.isGuest!}
         />
-        <Box mt={tutorial === 0 ? '150px' : { base: '300px', md: '250px' }}>
-          <Flex flexWrap="wrap">
+        <Box
+          mt={tutorial === 0 ? '150px' : { base: '300px', md: '250px' }}
+          px={{ base: 4, md: 0 }}
+        >
+          <Flex
+            flexWrap="wrap"
+            justifyContent={{ base: 'center', md: 'flex-start' }}
+          >
             <Box>
               <MyTeamCalendarSection />
             </Box>
