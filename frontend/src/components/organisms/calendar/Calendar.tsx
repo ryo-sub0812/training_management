@@ -40,24 +40,39 @@ export const Calendar: VFC<Props> = memo((props) => {
             key={node.id}
             alignItems="center"
             data-testid={node.id + '-schedule-item'}
+            className="group/item"
           >
             {isIconMode && node.training.iconNumber ? (
-              <TrainingIcon
-                iconNumber={node.training.iconNumber}
-                color="white"
-                size="50px"
-              />
-            ) : (
-              <Text
-                maxW="130px"
-                pr={5}
-                whiteSpace="nowrap"
-                overflow="hidden"
-                textOverflow="ellipsis"
-                color="white"
+              <Box
+                className="
+                  w-12 h-12 rounded-xl bg-gradient-to-br from-primary/30 to-accent/30 
+                  flex items-center justify-center shadow-md hover:shadow-lg
+                  transition-all duration-300 hover:scale-110 hover:rotate-3
+                  border border-primary/20
+                "
               >
-                {node.training.title}
-              </Text>
+                <TrainingIcon
+                  iconNumber={node.training.iconNumber}
+                  color="white"
+                  size="32px"
+                />
+              </Box>
+            ) : (
+              <Box
+                className="
+                  px-3 py-1.5 rounded-lg bg-gradient-to-r from-primary/20 to-accent/20
+                  border border-primary/30 shadow-sm hover:shadow-md
+                  transition-all duration-300 hover:scale-105
+                  max-w-[150px]
+                "
+              >
+                <Text
+                  className="text-foreground font-medium text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                  title={node.training.title}
+                >
+                  {node.training.title}
+                </Text>
+              </Box>
             )}
           </WrapItem>
         )),
@@ -77,54 +92,74 @@ export const Calendar: VFC<Props> = memo((props) => {
 
   return (
     <Box pt={3} mb={3}>
-      <Box pb={3}>
-        <Link onClick={onChangeIsIconMode} color="orange">
-          {isIconMode ? '予定を文字表記にする' : '予定をアイコン表記にする'}
+      <Box pb={4} textAlign="right">
+        <Link
+          onClick={onChangeIsIconMode}
+          className="text-primary hover:text-accent font-medium text-sm transition-colors duration-200 px-3 py-1.5 rounded-lg hover:bg-primary/10 inline-block"
+        >
+          {isIconMode
+            ? '📝 予定を文字表記にする'
+            : '🎯 予定をアイコン表記にする'}
         </Link>
       </Box>
-      <Flex borderBottom="1px solid #718096">
-        <Text>日付</Text>
-        <Text pl={{ base: '70px', md: '90px' }}>予定</Text>
-      </Flex>
-      {datesOfWeek.map((date, i) => (
-        <Box key={i}>
-          <Flex
-            borderBottomStyle="solid"
-            borderBottomWidth="1px"
-            borderBottomColor={
-              date.format('YYYY-MM-DD') === TODAY ? 'orange' : '#718096'
-            }
-            onClick={() => {
-              setOneDay(date.format('YYYY-MM-DD'))
-            }}
-            alignItems="center"
-            py={3}
-          >
-            <Text
-              color={
-                date.format('YYYY-MM-DD') === TODAY
-                  ? 'orange'
-                  : date.format('ddd') === '日'
-                  ? 'red.400'
-                  : date.format('ddd') === '土'
-                  ? 'blue.400'
-                  : 'white'
-              }
-              w={{ base: '110px', md: '120px' }}
+      <Box className="bg-gradient-to-r from-primary/10 via-accent/5 to-secondary/10 rounded-xl p-4 mb-4 border border-primary/20">
+        <Flex className="text-sm font-semibold text-muted-foreground">
+          <Text w={{ base: '110px', md: '120px' }}>📅 日付</Text>
+          <Text pl={{ base: '10px', md: '40px' }}>🎯 予定</Text>
+        </Flex>
+      </Box>
+      <Box>
+        {datesOfWeek.map((date, i) => {
+          const isToday = date.format('YYYY-MM-DD') === TODAY
+          const isSunday = date.format('ddd') === '日'
+          const isSaturday = date.format('ddd') === '土'
+
+          return (
+            <Box
+              key={i}
+              mb={2}
+              className={`
+                rounded-xl p-4 transition-all duration-300 cursor-pointer
+                ${
+                  isToday
+                    ? 'bg-gradient-to-r from-primary/20 via-accent/15 to-secondary/10 border-2 border-primary/40 shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30'
+                    : 'bg-card/50 border border-border/30 hover:bg-card/70 hover:border-primary/30 hover:shadow-md'
+                }
+                hover:scale-[1.01] hover:-translate-y-0.5
+              `}
+              onClick={() => {
+                setOneDay(date.format('YYYY-MM-DD'))
+              }}
             >
-              {moment(calendarDate.firstDate).get('M') + 1 === date.get('M')
-                ? date.format('M月D日(ddd)')
-                : date.format('D日(ddd)')}
-            </Text>
-            <Wrap
-              ml={{ base: '10px', md: '40px' }}
-              w={{ base: '250px', md: '350px' }}
-            >
-              {weekSchedules(date)}
-            </Wrap>
-          </Flex>
-        </Box>
-      ))}
+              <Flex alignItems="center" gap={4}>
+                <Box
+                  minW="120px"
+                  className={`
+                    px-3 py-2 rounded-lg font-semibold text-sm
+                    ${
+                      isToday
+                        ? 'bg-primary/30 text-primary-foreground shadow-md'
+                        : isSunday
+                        ? 'bg-red-500/20 text-red-400'
+                        : isSaturday
+                        ? 'bg-blue-500/20 text-blue-400'
+                        : 'bg-secondary/20 text-foreground'
+                    }
+                  `}
+                >
+                  {moment(calendarDate.firstDate).get('M') + 1 === date.get('M')
+                    ? date.format('M月D日(ddd)')
+                    : date.format('D日(ddd)')}
+                  {isToday && <span className="ml-2 text-xs">✨</span>}
+                </Box>
+                <Wrap flex={1} spacing={2}>
+                  {weekSchedules(date)}
+                </Wrap>
+              </Flex>
+            </Box>
+          )
+        })}
+      </Box>
     </Box>
   )
 })
