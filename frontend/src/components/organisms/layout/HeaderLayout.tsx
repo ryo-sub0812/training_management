@@ -1,4 +1,3 @@
-import { Box, Flex, Text } from '@chakra-ui/react'
 import { memo, ReactNode, VFC } from 'react'
 
 import { PageTitle } from '../../atoms/title/PageTitle'
@@ -14,28 +13,12 @@ export const HeaderLayout: VFC<Props> = memo((props) => {
   const { title, children, isLogin } = props
 
   return (
-    <Box
-      pos="fixed"
-      bg="gray.800"
-      width="100%"
-      height="80px"
-      as="nav"
-      zIndex="10"
-    >
-      <Flex
-        justify="space-between"
-        align="center"
-        wrap="wrap"
-        bg="black"
-        px={{ base: 5, md: 10 }}
-        color="white"
-        lineHeight="80px"
-        fontSize={{ md: '16px' }}
-      >
+    <header className="fixed w-full h-20 z-10 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
+      <nav className="flex justify-between items-center h-20 px-5 md:px-10">
         {children}
-      </Flex>
+      </nav>
       <PageTitle>{title}</PageTitle>
       {isLogin && <TutorialText />}
-    </Box>
+    </header>
   )
 })

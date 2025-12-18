@@ -1,30 +1,31 @@
 import { memo, ReactNode, VFC } from 'react'
-import { Box } from '@chakra-ui/react'
+import { Card, CardContent } from '../../ui/card'
+import { cn } from '../../../lib/utils'
 
 type Props = {
   width: string
   children: ReactNode
+  className?: string
 }
 
 export const SectionCard: VFC<Props> = memo((props) => {
-  const { width, children } = props
+  const { width, children, className } = props
 
   return (
-    <Box
-      w={{ base: '350px', md: width }}
-      pt={5}
-      pb={10}
-      px={4}
-      mb="30px"
-      mr="30px"
-      ml={{ base: '20px', md: '0px' }}
-      borderColor="gray.600"
-      bg="rgb(10, 10, 10)"
-      borderStyle="solid"
-      borderWidth="1px"
-      fontSize={{ md: '16px' }}
+    <Card
+      className={cn(
+        "w-full md:w-auto mb-8 mr-8 ml-5 md:ml-0",
+        "bg-white/80 backdrop-blur-sm border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300",
+        className
+      )}
+      style={{ 
+        width: typeof window !== 'undefined' && window.innerWidth >= 768 ? width : '350px',
+        minHeight: '200px'
+      }}
     >
-      {children}
-    </Box>
+      <CardContent className="pt-5 pb-10 px-4">
+        {children}
+      </CardContent>
+    </Card>
   )
 })
