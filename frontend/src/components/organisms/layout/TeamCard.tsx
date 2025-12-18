@@ -51,9 +51,6 @@ export const TeamCard: VFC<Props> = memo((props) => {
         opacity: 0,
         transition: "opacity 0.3s ease",
       }}
-      _hover_before={{
-        opacity: 1,
-      }}
     >
       <Stack spacing={6} position="relative" zIndex={1}>
         <Text 
